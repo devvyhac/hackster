@@ -15,7 +15,7 @@ def get_entry():
 
 def web_crawler(spider):
   
-  print_tool_name("Hack Spider 🕷️", "Devvyhac", "Trace Techie", "github.com/tracetechie")
+  print_tool_name("Hack Spider 🕷️", "Devvyhac", "Team Trace Techie", "github.com/devvyhac")
 
   list_commands(commands)
   print("")
@@ -46,7 +46,7 @@ def web_crawler(spider):
       loader.load()
       loader.terminate(timeout=1.2,seize=0)
       
-      print_tool_name("Hack Spider 🕷️", "Devvyhac", "Trace Techie", "github.com/tracetechie")
+      print_tool_name("Hack Spider 🕷️", "Devvyhac", "Team Trace Techie", "github.com/devvyhac")
 
       list_commands(commands)
       target_url = get_entry()

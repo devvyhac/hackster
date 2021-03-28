@@ -9,7 +9,7 @@ from .generator import get_pass_length
 pass_chars = string.ascii_letters + string.digits + string.punctuation
 
 def yield_one_password():
-  print_tool_name("One Auth", "Devvyhac", "Trace Techie", "github.com/tracetechie")
+  print_tool_name("One Auth", "Devvyhac", "Team Trace Techie", "github.com/devvyhac")
   while True:
     try:
       password = (random.choice(pass_chars) for p in range(get_pass_length()))

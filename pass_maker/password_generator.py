@@ -102,7 +102,7 @@ def generate_password():
 
   while True:
     try:
-      print_tool_name("Lazy Auth", "Devvyhac", "Trace Techie", "github.com/tracetechie")
+      print_tool_name("Lazy Auth", "Devvyhac", "Team Trace Techie", "github.com/devvyhac")
 
       pass_generator.initialize_props()
       pass_generator.run_tasks()
