@@ -1,7 +1,7 @@
 import random, string
 from colorama import Fore
 
-from methods.printer import get_input, print_msg
+from tools.printer import get_input, print_msg
 
 pass_chars = string.ascii_letters + string.digits + string.punctuation
 

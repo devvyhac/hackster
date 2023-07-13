@@ -22,12 +22,12 @@ def list_commands(commands):
       ))
     
 
-def list_tools(tools):
-  print("\n{0}[✓]{1} Available tools {0}[✓]{2}\n"\
+def list_tools(tools, heading=True):
+  print("\n{0}[✓]{1} Available options {0}[✓]{2}\n"\
     .format(Fore.GREEN, Fore.LIGHTYELLOW_EX, Fore.RESET))
   
-
-  print("""{1}{0}
+  if heading:
+    print("""{1}{0}
 {2}SN          TOOL NAME{1}
 {0}
   """.format(console_width*"•", Fore.CYAN, Fore.LIGHTGREEN_EX))

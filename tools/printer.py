@@ -55,42 +55,71 @@ def get_input(msg):
       c.RESET
     )) 
 
-def print_msg(msg_type, msg, clear=False):
+def print_msg(msg_type, msg, clear=False, art=True):
   if clear:
     clear_console()
   
   if msg_type == "warning":
-    print("\n{4}{0}{1} {2}.•° {3}[{0} ! ️{3}]{4}\n"\
+    if art:
+      print("\n{4}{0}{1} {2}.•° {3}[{0} ! ️{3}]{4}\n"\
       .format(
         c.LIGHTYELLOW_EX, 
         str(msg), c.LIGHTCYAN_EX,
         c.LIGHTMAGENTA_EX, 
+        c.RESET, art))
+    
+    else:
+      print("{2}{0}{1} \n"\
+      .format(
+        c.LIGHTYELLOW_EX, 
+        str(msg),
         c.RESET))
   
   elif msg_type == "success":
-    print("\n{4}{0}{1} {2}.•° {3}[{0} ✓ {3}]{4}\n"\
+    if art: 
+      print("\n{4}{0}{1} {2}.•° {3}[{0} ✓ ️{3}]{4}"\
       .format(
         c.LIGHTGREEN_EX, 
         str(msg), c.LIGHTYELLOW_EX,
         c.LIGHTBLUE_EX,
+        c.RESET, art))
+    else:
+      print("\n{2}{0}{1} \n"\
+      .format(
+        c.LIGHTGREEN_EX, 
+        str(msg),
         c.RESET))
   
   elif msg_type == "info":
-    print("\n{4}{0}{1} {2}.•° {3}[{0} ? {3}]{4}\n"\
+    if art:
+      print("\n{4}{0}{1} {2}.•° {3}[{0} ∆ ️{3}]{4}"\
       .format(
         c.LIGHTCYAN_EX,
         str(msg), c.LIGHTGREEN_EX,
         c.LIGHTBLACK_EX,
+        c.RESET, art))
+    else:
+      print("\n{2}{0}{1} "\
+      .format(
+        c.LIGHTCYAN_EX,
+        str(msg),
         c.RESET))
     
-  elif msg_type == "error": 
-    print("\n{4}{0}{1} {2}.•° {3}[{0} X {3}]{4}\n"\
+  elif msg_type == "error":
+    if art:
+      print("\n{4}{0}{1} {2}.•° {3}[{0} ! ️{3}]{4}\n"\
       .format(
         c.LIGHTRED_EX,
         str(msg), c.LIGHTCYAN_EX,
         c.LIGHTMAGENTA_EX,
+        c.RESET, art))
+    else:
+      print("\n{2}{0}{1} \n"\
+      .format(
+        c.LIGHTRED_EX,
+        str(msg),
         c.RESET))
-          
+      
   else:
     print(str(msg))
 

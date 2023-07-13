@@ -1,0 +1,6 @@
+beautifulsoup4
+colorama
+requests
+lxml
+art
+progressbar2

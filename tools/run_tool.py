@@ -8,8 +8,15 @@ from .list_tools import list_items
 from crawler import spider
 from crawler.web_crawler import web_crawler
 
+from ATM_Mock.atm import ATM_Mock
+
 from pass_maker.password_generator import generate_password
 from pass_maker.one_password import yield_one_password
+
+from number_guessing_game.guess_game import Guess
+player = Guess()
+
+from currency_converter.converter import converter
 
 def run_tool(index, tools, commands, delay=1.2):
   try:
@@ -25,6 +32,18 @@ def run_tool(index, tools, commands, delay=1.2):
       3: {
            "func": lambda: yield_one_password(), 
            "name": "One Auth"
+         },
+      4: {
+           "func": lambda: ATM_Mock(),
+           "name": "ATM Mock"
+         },
+      5: {
+           "func": lambda: player.guess_it(),
+           "name": "Guess Game"
+         },
+      6: {
+           "func": lambda: converter(), 
+           "name": "Aboki $$"
          }
     }
     

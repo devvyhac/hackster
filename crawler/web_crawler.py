@@ -1,7 +1,7 @@
 import time
-from methods.printer import clear_console, print_tool_name, get_input
-from methods.list_tools import list_commands
-from methods.loader import Loader
+from tools.printer import clear_console, print_tool_name, get_input
+from tools.list_tools import list_commands
+from tools.loader import Loader
 from colorama import Fore
 
 commands = ["Exit Current Program"]

@@ -3,18 +3,25 @@ from colorama import Fore
 from art import *
 
 
-from methods.list_tools import list_items, list_commands, list_tools
-from methods.printer import print_msg, get_input, clear_console, print_tool_name
-from methods.loader import Loader
-from methods.run_tool import run_tool
-from methods.confirm import confirm_exit
-from methods.fancy import fancy_typo, fancy_text
+from tools.list_tools import list_items, list_commands, list_tools
+from tools.printer import print_msg, get_input, clear_console, print_tool_name
+from tools.loader import Loader
+from tools.run_tool import run_tool
+from tools.confirm import confirm_exit
+from tools.fancy import fancy_typo, fancy_text
 
 commands = ["List Tools", "Exit"]
-tools = ["Hack Spider •   [Web Crawler, gets the sitemap]", "Lazy Auth •   [Wordlist Generator]", 
-         "One Auth •      [Unique Password Generator]", "Brute Auth • coming soon",
-         "Anon Chat •      Coming soon", "WiF-i •      Coming soon", 
-         "Cam Hijack •      Coming soon", "Hoarder •      Coming soon"]
+tools = ["Hack Spider •     [ Web Crawler, gets the sitemap ]", 
+         "Lazy Auth •       [ Password list Generator ]", 
+         "One Auth •        [ Unique Password Generator ]", 
+         "ATM Machine •     [ ATM Machine simulator ]",
+         "iGuess Num •      [ A number guessing game with incremental stages and stores players data in a database ]",
+         "Aboki $FX •       [ A currency converter ]",
+         "Brute Auth •      [ Coming soon ]",
+         "Anon Chat •       [ Coming soon ]", 
+         "WiF-i •           [ Coming soon ]", 
+         "Cam Hijack •      [ Coming soon ]", 
+         "Hoarder •         [ Coming soon ]"]
 
 
 clear_console()
@@ -35,7 +42,7 @@ def get_command():
     
   return option
 
-def exploit():
+def hackster():
   global is_active  
   while is_active:
     if not is_active:
@@ -83,4 +90,4 @@ def exploit():
     #except:
       #print("another new error")
 
-exploit()
+hackster()
