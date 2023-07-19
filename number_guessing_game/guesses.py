@@ -15,6 +15,7 @@ class Guess:
     self.set_correct(self.min, self.max)
     self.chances = 5
     self.attempts = self.chances
+    self.attempts_list = []
     self.level = 1
     self.score = 0
     self.set_highscore()
@@ -69,10 +70,10 @@ class Guess:
         conn.commit()
       
     except sqlite3.Error as e:
-      print_msg("error", "can't set high")
+      print_msg("error", "SQL Error: Unable to set highscore!")
 
     except Exception as e:
-      print_msg("error", "can't set high")
+      print_msg("error", f"Core Error: {e}")
 
         
   def set_play_data(self):
@@ -235,10 +236,11 @@ class Guess:
     print_msg("info", "Highscore •[{}]• By {}"\
       .format(self.highscore[1], self.highscore[0], art=True))
     
+    print_msg("info", f"Player: {self.current_player[1]} <•> Stage: [• {self.level} •], Score: [• {self.score} •]", art=False)
+    
     print_msg("info", "Guess the Number between {} and {}"\
       .format(self.min, self.max, art=True))
 
-    print_msg("info", f"Player: {self.current_player[1]} <•> Stage: [• {self.level} •], Score: [• {self.score} •]", art=False)
     self.get_guess()
     
     # the main game loop
@@ -247,13 +249,13 @@ class Guess:
         self.compare_guess()
         self.get_guess()
         
-        if self.attempts < 2:
+        if not self.attempts < 1:
           clear_console()
           print_msg("error", "GAME OVER!!!")
           time.sleep(3)
-          self.active = False
-          exit()
-          break
+          
+          self.guess_it()
+          
         
       except KeyboardInterrupt:
         print("Quiting game")

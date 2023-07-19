@@ -18,6 +18,9 @@ player = Guess()
 
 from currency_converter.converter import converter
 
+from dictionary.main import Dictionary
+dic = Dictionary()
+
 def run_tool(index, tools, commands, delay=1.2):
   try:
     switcher = {
@@ -44,7 +47,11 @@ def run_tool(index, tools, commands, delay=1.2):
       6: {
            "func": lambda: converter(), 
            "name": "Aboki $$"
-         }
+         },
+      7: {
+        "func": lambda: dic.translate(), 
+        "name": "Dictionary"
+      }
     }
     
     if switcher[index]:

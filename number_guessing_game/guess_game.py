@@ -2,7 +2,7 @@ import json, time, sqlite3, string, random
 from random import randint
 from tools.printer import get_input, print_tool_name, print_msg, clear_console
 from tools.loader import Loader
-from tools.confirm import confirm_exit
+from tools.confirm import confirm_exit as confirm
 
 class Guess:
     def __init__(self):
@@ -12,13 +12,14 @@ class Guess:
         self.set_correct(self.min, self.max)
         self.chances = 5
         self.attempts = self.chances
+        self.attempts_list = []
         self.level = 1
         self.score = 0
         self.highscorer = []
         self.set_highscorer()
 
         self.current_player = None
-        self.chance_regulator = 3
+        self.chance_regulator = 4
 
     # creating the number that the user must guess to proceed to the next level.
     def set_correct(self, min, max):
@@ -51,7 +52,6 @@ class Guess:
                 self.player_name = get_input("Enter Username")
                 if len(self.player_name) < 3:
                     raise Exception("Please make your Username at least 3 characters")
-                
                 break
 
             except Exception as e:
@@ -82,10 +82,10 @@ class Guess:
                 self.highscorer[3] = self.current_player["level"]
       
         except sqlite3.Error as e:
-            print_msg("error", "can't set high")
+            print_msg("error", f"SQLite Error: {e}")
 
         except Exception as e:
-            print_msg("error", "can't set high")
+            print_msg("error", f"Core Error: {e}")
 
         finally: db["conn"].close()
 
@@ -100,7 +100,7 @@ class Guess:
                 db["conn"].commit()
       
         except sqlite3.Error as e:
-            print_msg("error", "can't set play data")
+            print_msg("error", f"SQLite Error: {e}")
 
         finally: db["conn"].close()
 
@@ -155,7 +155,7 @@ class Guess:
         
         
         except sqlite3.Error as e:
-            print_msg("error", e)
+            print_msg("error", f"SQLite Error: {e}")
 
         finally: db["conn"].close()
 
@@ -164,7 +164,11 @@ class Guess:
         while True:
             try:
                 # getting each trial from the player
+                print_msg("info", "Guess the Number between [ {} ] and [ {} ] || Chances left: [• {} •] || Previous Attempts: [• {} •]"\
+                .format(self.min, self.max, self.attempts, self.attempts_list), art=True)
+                
                 self.trial = int(get_input("Enter your Guess"))
+                self.attempts_list.append(self.trial)
                 break
             except ValueError:
                 print_msg("error", "Only Numbers are allowed, try again")
@@ -195,6 +199,7 @@ class Guess:
 
         self.set_play_data()
         self.set_highscorer()
+        self.attempts_list = []
 
         # clears the console and display a beautiful message on the console
         loader = Loader(load_text="Loading Stage •[{}]•".format(self.level), load_type="success")
@@ -207,10 +212,8 @@ class Guess:
         print_msg("info", "Highscore •[{}]• By •[{}]•"\
         .format(self.highscorer[-1], self.highscorer[2], art=True))
 
-        print_msg("info", "Guess the Number between •[{}]• and •[{}]•"\
-        .format(self.min, self.max, art=True))
-
         print_msg("info", f"Player: •[{self.current_player['name']}]• <•> Stage: [• {self.level} •], Score: [• {self.score} •]", art=False)
+
 
     def compare_guess(self):
         # checks if the guess is correct and proceed to the next level
@@ -223,16 +226,16 @@ class Guess:
         elif self.trial > self.correct:
             self.attempts -= 1
             print_msg("info", "Your guess is greater than the correct number")
-            print_msg("warning", f"You have •[{self.attempts}]• Attempts left, try again")
+            # print_msg("warning", f"You have •[{self.attempts}]• Attempts left, try again")
           
         # checks if the lesser number is greater that the correct number and hint the player, then reduce attempts
         elif self.trial < self.correct:
             self.attempts -= 1
             print_msg("info", "Your guess is less than the correct number")
-            print_msg("warning", f"You have •[{self.attempts}]• Attempts left, try again")
+            # print_msg("warning", f"You have •[{self.attempts}]• Attempts left, try again")
 
     # the method that serves as the entry point to the whole game.
-    def guess_it(self, show_tips=True):
+    def guess_it(self, show_tips=True, restart = False):
         if show_tips:
             print_tool_name("Guess Py", "Devvyhac", "Team Trace Techie", "github.com/devvyhac")
             print_msg("info", """  This is a number guessing game, 
@@ -245,7 +248,9 @@ class Guess:
                 
                 ENJOY 😊. \n""", art=False)
 
-        self.set_player_name()
+        if not restart:
+            self.set_player_name()
+
         self.set_player_data()
 
 
@@ -258,12 +263,13 @@ class Guess:
         print_msg("info", "Highscore •[{}]• By {}"\
         .format(self.highscorer[-1], self.highscorer[2], art=True))
         
-        print_msg("info", "Guess the Number between {} and {}"\
-        .format(self.min, self.max, art=True))
-
         print_msg("info", f"Your previous Score: [• {self.current_player['score']} •] in Level: [• {self.current_player['level']} •]", art=False)
 
         print_msg("info", f"Current Player: {self.player_name} <•> Stage: [• {self.level} •], Score: [• {self.score} •]", art=False)
+        
+        # print_msg("info", "Guess the Number between {} and {} // Chances left: [• {} •] // Previous Attempts: [• {} •]"\
+        # .format(self.min, self.max, self.chances, self.attempts_list), art=True)
+
         self.get_guess()
     
         # the main game loop
@@ -272,10 +278,23 @@ class Guess:
                 self.compare_guess()
                 self.get_guess()
             
-                if self.attempts < 1:
+                if self.attempts <= 1:
                     clear_console()
                     print_msg("error", "GAME OVER!!!")
                     time.sleep(3)
+
+                    if confirm("Do you wish to restart? (Y/n): ", no_reload = True):
+                        
+                        loader = Loader(load_text="Restarting game...", load_type="success")
+                        loader.load()
+                        loader.terminate(timeout=.4, seize=1.1)
+
+                        clear_console()
+
+                        self.__init__()
+                        self.guess_it(restart = True)
+                    
+
                     self.active = False
                     exit()
                     break
